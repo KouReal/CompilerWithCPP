@@ -1,0 +1,234 @@
+-----------------------------------
+Type:T_Int : int
+-----------------------------------
+Init:Identifier : a
+-----------------------------------
+Decl:Type Init : int a
+-----------------------------------
+Stmt:Decl
+-----------------------------------
+Series:Stmt : 
+$$.chain =$1chain : 0
+-----------------------------------
+Type:T_Int : int
+-----------------------------------
+Init:Identifier : b
+-----------------------------------
+Decl:Type Init : int b
+-----------------------------------
+Stmt:Decl
+-----------------------------------
+in backpatch : 
+look pc
+in lookchain
+Series:Series Stmt : 
+backpatch : $2.chain : 0 to 1
+$$.chain =$2chain : 0
+-----------------------------------
+Type:T_Int : int
+-----------------------------------
+Init:Identifier : c
+-----------------------------------
+Decl:Type Init : int c
+-----------------------------------
+Stmt:Decl
+-----------------------------------
+in backpatch : 
+look pc
+in lookchain
+Series:Series Stmt : 
+backpatch : $2.chain : 0 to 1
+$$.chain =$2chain : 0
+-----------------------------------
+E:V_Int : 3 -1
+-----------------------------------
+Assign:Identifier=E : a -1
+=i -1 0 1
+-----------------------------------
+Stmt:Assign
+-----------------------------------
+in backpatch : 
+look pc
+in lookchain
+Series:Series Stmt : 
+backpatch : $2.chain : 0 to 2
+$$.chain =$2chain : 0
+-----------------------------------
+E:V_Int : 5 -2
+-----------------------------------
+Assign:Identifier=E : b -2
+=i -2 0 2
+-----------------------------------
+Stmt:Assign
+-----------------------------------
+in backpatch : 
+look pc
+in lookchain
+Series:Series Stmt : 
+backpatch : $2.chain : 0 to 3
+$$.chain =$2chain : 0
+-----------------------------------
+E:Identifier : a
+-----------------------------------
+E:Identifier : b
+-----------------------------------
+E:V_Int : 2 -3
+-----------------------------------
+-i 2 -3 -4
+-----------------------------------
+-----------------------------------
+*i 1 -4 -5
+-----------------------------------
+Assign:Identifier=E : c -5
+=i -5 0 3
+-----------------------------------
+Stmt:Assign
+-----------------------------------
+in backpatch : 
+look pc
+in lookchain
+Series:Series Stmt : 
+backpatch : $2.chain : 0 to 6
+$$.chain =$2chain : 0
+-----------------------------------
+Wl:WHILE
+$$.loopstartplace : 6
+-----------------------------------
+E:Identifier : a
+-----------------------------------
+E:V_Int : 5 -6
+-----------------------------------
+< 1 -6 0
+j 0 0 0
+BoolExp:E Rop E : 1 -6
+truechain: 6
+falsechain: 7
+-----------------------------------
+BoolExp:( BoolExp ) : 1
+truechain: 6
+falsechain: 7
+-----------------------------------
+in backpatch : 
+look pc
+in lookchain
+chain: 6
+WED:Wl BoolExp DO
+backpatch : $2.truechain : 6 to 8
+$$.chain = $2.falsechain : 7
+loopstart : 6
+-----------------------------------
+E:Identifier : b
+-----------------------------------
+E:Identifier : a
+-----------------------------------
++i 2 1 -7
+-----------------------------------
+Assign:Identifier=E : b -7
+=i -7 0 2
+-----------------------------------
+Stmt:Assign
+-----------------------------------
+Series:Stmt : 
+$$.chain =$1chain : 0
+-----------------------------------
+E:Identifier : a
+-----------------------------------
+E:V_Int : 1 -8
+-----------------------------------
++i 1 -8 -9
+-----------------------------------
+Assign:Identifier=E : a -9
+=i -9 0 1
+-----------------------------------
+Stmt:Assign
+-----------------------------------
+in backpatch : 
+look pc
+in lookchain
+Series:Series Stmt : 
+backpatch : $2.chain : 0 to 12
+$$.chain =$2chain : 0
+-----------------------------------
+E:Identifier : b
+-----------------------------------
+E:V_Int : 20 -10
+-----------------------------------
+< 2 -10 0
+j 0 0 0
+BoolExp:E Rop E : 2 -10
+truechain: 12
+falsechain: 13
+-----------------------------------
+BoolExp:( BoolExp ) : 2
+truechain: 12
+falsechain: 13
+-----------------------------------
+in backpatch : 
+look pc
+in lookchain
+chain: 12
+Condition:IF BoolExp THEN : 
+backpatch $2.truechain (head) : 12 to 14
+$$.chain : 13
+-----------------------------------
+E:V_Int : 8 -11
+-----------------------------------
+Assign:Identifier=E : b -11
+=i -11 0 2
+-----------------------------------
+Stmt:Assign
+-----------------------------------
+Series:Stmt : 
+$$.chain =$1chain : 0
+-----------------------------------
+Stmt:BEG Series END
+-----------------------------------
+j 0 0 0
+in backpatch : 
+look pc
+in lookchain
+chain: 13
+in mergechain : p2!=0
+look p2 : 
+in lookchain
+chain: 15
+CondStElse:Condition Stmt ELSE 
+backpatch $1.chain (head) : 13 to 16
+mergechain : $1.chain $2.chain : 130
+$$.chain = merge result : 15
+-----------------------------------
+E:V_Int : 0 -12
+-----------------------------------
+Assign:Identifier=E : b -12
+=i -12 0 2
+-----------------------------------
+Stmt:Assign
+-----------------------------------
+Series:Stmt : 
+$$.chain =$1chain : 0
+-----------------------------------
+Stmt:BEG Series END
+-----------------------------------
+in mergechain : p2=0
+Stmt:Condition Stmt 
+mergechain :1 2 .chain : 15 0
+$$.chain = merge result : 15
+-----------------------------------
+in backpatch : 
+look pc
+in lookchain
+chain: 15
+Series:Series Stmt : 
+backpatch : $2.chain : 15 to 17
+$$.chain =$2chain : 15
+-----------------------------------
+Stmt:BEG Series END
+-----------------------------------
+in backpatch : 
+look pc
+in lookchain
+chain: 15
+chain: 17
+quadruple index out of range
+quadruple index out of range
+quadruple index out of range
